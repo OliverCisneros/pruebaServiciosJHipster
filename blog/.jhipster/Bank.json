@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "address",
+            "otherEntityName": "address",
+            "otherEntityField": "address",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "bank"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "idBank",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "bankname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170928134959",
+    "entityTableName": "bank",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

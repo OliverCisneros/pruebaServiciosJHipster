@@ -29,13 +29,16 @@ public class Address implements Serializable {
     @Column(name = "idaddress", nullable = false)
     private Integer idaddress;
 
-    @Column(name = "mainstreet")
-    private String mainstreet;
+    @NotNull
+    @Column(name = "address", nullable = false)
+    private String address;
 
-    @Column(name = "jhi_number")
+    @NotNull
+    @Column(name = "jhi_number", nullable = false)
     private Integer number;
 
-    @Column(name = "cp")
+    @NotNull
+    @Column(name = "cp", nullable = false)
     private Integer cp;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
@@ -60,17 +63,17 @@ public class Address implements Serializable {
         this.idaddress = idaddress;
     }
 
-    public String getMainstreet() {
-        return mainstreet;
+    public String getAddress() {
+        return address;
     }
 
-    public Address mainstreet(String mainstreet) {
-        this.mainstreet = mainstreet;
+    public Address address(String address) {
+        this.address = address;
         return this;
     }
 
-    public void setMainstreet(String mainstreet) {
-        this.mainstreet = mainstreet;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getNumber() {
@@ -125,7 +128,7 @@ public class Address implements Serializable {
         return "Address{" +
             "id=" + getId() +
             ", idaddress='" + getIdaddress() + "'" +
-            ", mainstreet='" + getMainstreet() + "'" +
+            ", address='" + getAddress() + "'" +
             ", number='" + getNumber() + "'" +
             ", cp='" + getCp() + "'" +
             "}";

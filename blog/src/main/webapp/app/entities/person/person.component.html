@@ -31,11 +31,10 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="blogApp.person.idperson">Idperson</span></th>
-            <th><span jhiTranslate="blogApp.person.name">Name</span></th>
-            <th><span jhiTranslate="blogApp.person.surname">Surname</span></th>
-            <th><span jhiTranslate="blogApp.person.image">Image</span></th>
-            <th><span jhiTranslate="blogApp.person.address">Address</span></th>
-            <th><span jhiTranslate="blogApp.person.address">Address</span></th>
+            <th><span jhiTranslate="blogApp.person.fname">Fname</span></th>
+            <th><span jhiTranslate="blogApp.person.lname">Lname</span></th>
+            <th><span jhiTranslate="blogApp.person.addressPerson">Address Person</span></th>
+            <th><span jhiTranslate="blogApp.person.bank">Bank</span></th>
             <th></th>
             </tr>
             </thead>
@@ -43,20 +42,16 @@
             <tr *ngFor="let person of people ;trackBy: trackId">
                 <td><a [routerLink]="['../person', person.id ]">{{person.id}}</a></td>
                 <td>{{person.idperson}}</td>
-                <td>{{person.name}}</td>
-                <td>{{person.surname}}</td>
+                <td>{{person.fname}}</td>
+                <td>{{person.lname}}</td>
                 <td>
-                    <a *ngIf="person.image" (click)="openFile(person.imageContentType, person.image)" jhiTranslate="entity.action.open">open</a>
-                    <span *ngIf="person.image">{{person.imageContentType}}, {{byteSize(person.image)}}</span>
-                </td>
-                <td>
-                    <div *ngIf="person.address">
-                        <a [routerLink]="['../address', person.address?.id ]" >{{person.address?.mainstreet}}</a>
+                    <div *ngIf="person.addressPerson">
+                        <a [routerLink]="['../address', person.addressPerson?.id ]" >{{person.addressPerson?.address}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="person.address">
-                        <a [routerLink]="['../address', person.address?.id ]" >{{person.address?.number}}</a>
+                    <div *ngIf="person.bank">
+                        <a [routerLink]="['../bank', person.bank?.id ]" >{{person.bank?.bankname}}</a>
                     </div>
                 </td>
                 <td class="text-right">

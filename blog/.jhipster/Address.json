@@ -10,19 +10,28 @@
             ]
         },
         {
-            "fieldName": "mainstreet",
-            "fieldType": "String"
+            "fieldName": "address",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "number",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "cp",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
-    "changelogDate": "20170927204148",
+    "changelogDate": "20170928134958",
     "entityTableName": "address",
     "dto": "no",
     "pagination": "no",

@@ -31,7 +31,7 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="blogApp.address.idaddress">Idaddress</span></th>
-            <th><span jhiTranslate="blogApp.address.mainstreet">Mainstreet</span></th>
+            <th><span jhiTranslate="blogApp.address.address">Address</span></th>
             <th><span jhiTranslate="blogApp.address.number">Number</span></th>
             <th><span jhiTranslate="blogApp.address.cp">Cp</span></th>
             <th></th>
@@ -41,7 +41,7 @@
             <tr *ngFor="let address of addresses ;trackBy: trackId">
                 <td><a [routerLink]="['../address', address.id ]">{{address.id}}</a></td>
                 <td>{{address.idaddress}}</td>
-                <td>{{address.mainstreet}}</td>
+                <td>{{address.address}}</td>
                 <td>{{address.number}}</td>
                 <td>{{address.cp}}</td>
                 <td class="text-right">

@@ -3,6 +3,8 @@ package org.jhipster.blog.web.rest;
 import org.jhipster.blog.BlogApp;
 
 import org.jhipster.blog.domain.Person;
+import org.jhipster.blog.domain.Address;
+import org.jhipster.blog.domain.Bank;
 import org.jhipster.blog.repository.PersonRepository;
 import org.jhipster.blog.repository.search.PersonSearchRepository;
 import org.jhipster.blog.web.rest.errors.ExceptionTranslator;
@@ -20,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -42,16 +43,11 @@ public class PersonResourceIntTest {
     private static final Integer DEFAULT_IDPERSON = 1;
     private static final Integer UPDATED_IDPERSON = 2;
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_FNAME = "AAAAAAAAAA";
+    private static final String UPDATED_FNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SURNAME = "AAAAAAAAAA";
-    private static final String UPDATED_SURNAME = "BBBBBBBBBB";
-
-    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_LNAME = "AAAAAAAAAA";
+    private static final String UPDATED_LNAME = "BBBBBBBBBB";
 
     @Autowired
     private PersonRepository personRepository;
@@ -94,10 +90,18 @@ public class PersonResourceIntTest {
     public static Person createEntity(EntityManager em) {
         Person person = new Person()
             .idperson(DEFAULT_IDPERSON)
-            .name(DEFAULT_NAME)
-            .surname(DEFAULT_SURNAME)
-            .image(DEFAULT_IMAGE)
-            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
+            .fname(DEFAULT_FNAME)
+            .lname(DEFAULT_LNAME);
+        // Add required entity
+        Address addressPerson = AddressResourceIntTest.createEntity(em);
+        em.persist(addressPerson);
+        em.flush();
+        person.setAddressPerson(addressPerson);
+        // Add required entity
+        Bank bank = BankResourceIntTest.createEntity(em);
+        em.persist(bank);
+        em.flush();
+        person.setBank(bank);
         return person;
     }
 
@@ -123,10 +127,8 @@ public class PersonResourceIntTest {
         assertThat(personList).hasSize(databaseSizeBeforeCreate + 1);
         Person testPerson = personList.get(personList.size() - 1);
         assertThat(testPerson.getIdperson()).isEqualTo(DEFAULT_IDPERSON);
-        assertThat(testPerson.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testPerson.getSurname()).isEqualTo(DEFAULT_SURNAME);
-        assertThat(testPerson.getImage()).isEqualTo(DEFAULT_IMAGE);
-        assertThat(testPerson.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
+        assertThat(testPerson.getFname()).isEqualTo(DEFAULT_FNAME);
+        assertThat(testPerson.getLname()).isEqualTo(DEFAULT_LNAME);
 
         // Validate the Person in Elasticsearch
         Person personEs = personSearchRepository.findOne(testPerson.getId());
@@ -172,6 +174,42 @@ public class PersonResourceIntTest {
 
     @Test
     @Transactional
+    public void checkFnameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = personRepository.findAll().size();
+        // set the field null
+        person.setFname(null);
+
+        // Create the Person, which fails.
+
+        restPersonMockMvc.perform(post("/api/people")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .andExpect(status().isBadRequest());
+
+        List<Person> personList = personRepository.findAll();
+        assertThat(personList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkLnameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = personRepository.findAll().size();
+        // set the field null
+        person.setLname(null);
+
+        // Create the Person, which fails.
+
+        restPersonMockMvc.perform(post("/api/people")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .andExpect(status().isBadRequest());
+
+        List<Person> personList = personRepository.findAll();
+        assertThat(personList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPeople() throws Exception {
         // Initialize the database
         personRepository.saveAndFlush(person);
@@ -182,10 +220,8 @@ public class PersonResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
             .andExpect(jsonPath("$.[*].idperson").value(hasItem(DEFAULT_IDPERSON)))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].surname").value(hasItem(DEFAULT_SURNAME.toString())))
-            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].fname").value(hasItem(DEFAULT_FNAME.toString())))
+            .andExpect(jsonPath("$.[*].lname").value(hasItem(DEFAULT_LNAME.toString())));
     }
 
     @Test
@@ -200,10 +236,8 @@ public class PersonResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(person.getId().intValue()))
             .andExpect(jsonPath("$.idperson").value(DEFAULT_IDPERSON))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.surname").value(DEFAULT_SURNAME.toString()))
-            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)));
+            .andExpect(jsonPath("$.fname").value(DEFAULT_FNAME.toString()))
+            .andExpect(jsonPath("$.lname").value(DEFAULT_LNAME.toString()));
     }
 
     @Test
@@ -226,10 +260,8 @@ public class PersonResourceIntTest {
         Person updatedPerson = personRepository.findOne(person.getId());
         updatedPerson
             .idperson(UPDATED_IDPERSON)
-            .name(UPDATED_NAME)
-            .surname(UPDATED_SURNAME)
-            .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .fname(UPDATED_FNAME)
+            .lname(UPDATED_LNAME);
 
         restPersonMockMvc.perform(put("/api/people")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -241,10 +273,8 @@ public class PersonResourceIntTest {
         assertThat(personList).hasSize(databaseSizeBeforeUpdate);
         Person testPerson = personList.get(personList.size() - 1);
         assertThat(testPerson.getIdperson()).isEqualTo(UPDATED_IDPERSON);
-        assertThat(testPerson.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testPerson.getSurname()).isEqualTo(UPDATED_SURNAME);
-        assertThat(testPerson.getImage()).isEqualTo(UPDATED_IMAGE);
-        assertThat(testPerson.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
+        assertThat(testPerson.getFname()).isEqualTo(UPDATED_FNAME);
+        assertThat(testPerson.getLname()).isEqualTo(UPDATED_LNAME);
 
         // Validate the Person in Elasticsearch
         Person personEs = personSearchRepository.findOne(testPerson.getId());
@@ -304,10 +334,8 @@ public class PersonResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
             .andExpect(jsonPath("$.[*].idperson").value(hasItem(DEFAULT_IDPERSON)))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].surname").value(hasItem(DEFAULT_SURNAME.toString())))
-            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].fname").value(hasItem(DEFAULT_FNAME.toString())))
+            .andExpect(jsonPath("$.[*].lname").value(hasItem(DEFAULT_LNAME.toString())));
     }
 
     @Test

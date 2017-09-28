@@ -1,0 +1,64 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myBankLabel" jhiTranslate="blogApp.bank.home.createOrEditLabel">Create or edit a Bank</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!bank.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="bank.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="blogApp.bank.idBank" for="field_idBank">Id Bank</label>
+            <input type="number" class="form-control" name="idBank" id="field_idBank"
+                [(ngModel)]="bank.idBank" required />
+            <div [hidden]="!(editForm.controls.idBank?.dirty && editForm.controls.idBank?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.idBank?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.idBank?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="blogApp.bank.bankname" for="field_bankname">Bankname</label>
+            <input type="text" class="form-control" name="bankname" id="field_bankname"
+                [(ngModel)]="bank.bankname" required />
+            <div [hidden]="!(editForm.controls.bankname?.dirty && editForm.controls.bankname?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.bankname?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="blogApp.bank.address" for="field_address">Address</label>
+            <select class="form-control" id="field_address" name="address" [(ngModel)]="bank.address" required>
+                <option *ngIf="!editForm.value.address" [ngValue]="null" selected></option>
+                <option [ngValue]="addressOption.id === bank.address?.id ? bank.address : addressOption" *ngFor="let addressOption of addresses; trackBy: trackAddressById">{{addressOption.address}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.address?.dirty && editForm.controls.address?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.address?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

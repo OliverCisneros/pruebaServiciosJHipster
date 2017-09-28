@@ -1,0 +1,21 @@
+{
+    "blogApp": {
+        "hola" : {
+            "home": {
+                "title": "Holas",
+                "createLabel": "Crear nuevo Hola",
+                "createOrEditLabel": "Crear o editar Hola",
+                "search": "Search for Hola"
+            },
+            "created": "Un nuevo Hola ha sido creado con el identificador {{ param }}",
+            "updated": "Un Hola ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Hola ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Hola {{ id }}?"
+            },
+            "detail": {
+                "title": "Hola"
+            }
+        }
+    }
+}

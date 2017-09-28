@@ -41,8 +41,8 @@ public class AddressResourceIntTest {
     private static final Integer DEFAULT_IDADDRESS = 1;
     private static final Integer UPDATED_IDADDRESS = 2;
 
-    private static final String DEFAULT_MAINSTREET = "AAAAAAAAAA";
-    private static final String UPDATED_MAINSTREET = "BBBBBBBBBB";
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_NUMBER = 1;
     private static final Integer UPDATED_NUMBER = 2;
@@ -91,7 +91,7 @@ public class AddressResourceIntTest {
     public static Address createEntity(EntityManager em) {
         Address address = new Address()
             .idaddress(DEFAULT_IDADDRESS)
-            .mainstreet(DEFAULT_MAINSTREET)
+            .address(DEFAULT_ADDRESS)
             .number(DEFAULT_NUMBER)
             .cp(DEFAULT_CP);
         return address;
@@ -119,7 +119,7 @@ public class AddressResourceIntTest {
         assertThat(addressList).hasSize(databaseSizeBeforeCreate + 1);
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getIdaddress()).isEqualTo(DEFAULT_IDADDRESS);
-        assertThat(testAddress.getMainstreet()).isEqualTo(DEFAULT_MAINSTREET);
+        assertThat(testAddress.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testAddress.getNumber()).isEqualTo(DEFAULT_NUMBER);
         assertThat(testAddress.getCp()).isEqualTo(DEFAULT_CP);
 
@@ -167,6 +167,60 @@ public class AddressResourceIntTest {
 
     @Test
     @Transactional
+    public void checkAddressIsRequired() throws Exception {
+        int databaseSizeBeforeTest = addressRepository.findAll().size();
+        // set the field null
+        address.setAddress(null);
+
+        // Create the Address, which fails.
+
+        restAddressMockMvc.perform(post("/api/addresses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .andExpect(status().isBadRequest());
+
+        List<Address> addressList = addressRepository.findAll();
+        assertThat(addressList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkNumberIsRequired() throws Exception {
+        int databaseSizeBeforeTest = addressRepository.findAll().size();
+        // set the field null
+        address.setNumber(null);
+
+        // Create the Address, which fails.
+
+        restAddressMockMvc.perform(post("/api/addresses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .andExpect(status().isBadRequest());
+
+        List<Address> addressList = addressRepository.findAll();
+        assertThat(addressList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCpIsRequired() throws Exception {
+        int databaseSizeBeforeTest = addressRepository.findAll().size();
+        // set the field null
+        address.setCp(null);
+
+        // Create the Address, which fails.
+
+        restAddressMockMvc.perform(post("/api/addresses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(address)))
+            .andExpect(status().isBadRequest());
+
+        List<Address> addressList = addressRepository.findAll();
+        assertThat(addressList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAddresses() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);
@@ -177,7 +231,7 @@ public class AddressResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
             .andExpect(jsonPath("$.[*].idaddress").value(hasItem(DEFAULT_IDADDRESS)))
-            .andExpect(jsonPath("$.[*].mainstreet").value(hasItem(DEFAULT_MAINSTREET.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER)))
             .andExpect(jsonPath("$.[*].cp").value(hasItem(DEFAULT_CP)));
     }
@@ -194,7 +248,7 @@ public class AddressResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(address.getId().intValue()))
             .andExpect(jsonPath("$.idaddress").value(DEFAULT_IDADDRESS))
-            .andExpect(jsonPath("$.mainstreet").value(DEFAULT_MAINSTREET.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
             .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER))
             .andExpect(jsonPath("$.cp").value(DEFAULT_CP));
     }
@@ -219,7 +273,7 @@ public class AddressResourceIntTest {
         Address updatedAddress = addressRepository.findOne(address.getId());
         updatedAddress
             .idaddress(UPDATED_IDADDRESS)
-            .mainstreet(UPDATED_MAINSTREET)
+            .address(UPDATED_ADDRESS)
             .number(UPDATED_NUMBER)
             .cp(UPDATED_CP);
 
@@ -233,7 +287,7 @@ public class AddressResourceIntTest {
         assertThat(addressList).hasSize(databaseSizeBeforeUpdate);
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getIdaddress()).isEqualTo(UPDATED_IDADDRESS);
-        assertThat(testAddress.getMainstreet()).isEqualTo(UPDATED_MAINSTREET);
+        assertThat(testAddress.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testAddress.getNumber()).isEqualTo(UPDATED_NUMBER);
         assertThat(testAddress.getCp()).isEqualTo(UPDATED_CP);
 
@@ -295,7 +349,7 @@ public class AddressResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
             .andExpect(jsonPath("$.[*].idaddress").value(hasItem(DEFAULT_IDADDRESS)))
-            .andExpect(jsonPath("$.[*].mainstreet").value(hasItem(DEFAULT_MAINSTREET.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER)))
             .andExpect(jsonPath("$.[*].cp").value(hasItem(DEFAULT_CP)));
     }

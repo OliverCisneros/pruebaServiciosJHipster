@@ -33,20 +33,19 @@ describe('Person e2e test', () => {
         personDialogPage.close();
     });
 
-    it('should create and save People', () => {
+   /* it('should create and save People', () => {
         personComponentsPage.clickOnCreateButton();
         personDialogPage.setIdpersonInput('5');
         expect(personDialogPage.getIdpersonInput()).toMatch('5');
-        personDialogPage.setNameInput('name');
-        expect(personDialogPage.getNameInput()).toMatch('name');
-        personDialogPage.setSurnameInput('surname');
-        expect(personDialogPage.getSurnameInput()).toMatch('surname');
-        personDialogPage.setImageInput(absolutePath);
-        personDialogPage.addressSelectLastOption();
-        personDialogPage.addressSelectLastOption();
+        personDialogPage.setFnameInput('fname');
+        expect(personDialogPage.getFnameInput()).toMatch('fname');
+        personDialogPage.setLnameInput('lname');
+        expect(personDialogPage.getLnameInput()).toMatch('lname');
+        personDialogPage.addressPersonSelectLastOption();
+        personDialogPage.bankSelectLastOption();
         personDialogPage.save();
         expect(personDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    }); */
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -71,11 +70,10 @@ export class PersonDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     idpersonInput = element(by.css('input#field_idperson'));
-    nameInput = element(by.css('input#field_name'));
-    surnameInput = element(by.css('input#field_surname'));
-    imageInput = element(by.css('input#file_image'));
-    addressSelect = element(by.css('select#field_address'));
-    addressSelect = element(by.css('select#field_address'));
+    fnameInput = element(by.css('input#field_fname'));
+    lnameInput = element(by.css('input#field_lname'));
+    addressPersonSelect = element(by.css('select#field_addressPerson'));
+    bankSelect = element(by.css('select#field_bank'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -89,60 +87,52 @@ export class PersonDialogPage {
         return this.idpersonInput.getAttribute('value');
     }
 
-    setNameInput = function (name) {
-        this.nameInput.sendKeys(name);
+    setFnameInput = function (fname) {
+        this.fnameInput.sendKeys(fname);
     }
 
-    getNameInput = function () {
-        return this.nameInput.getAttribute('value');
+    getFnameInput = function () {
+        return this.fnameInput.getAttribute('value');
     }
 
-    setSurnameInput = function (surname) {
-        this.surnameInput.sendKeys(surname);
+    setLnameInput = function (lname) {
+        this.lnameInput.sendKeys(lname);
     }
 
-    getSurnameInput = function () {
-        return this.surnameInput.getAttribute('value');
+    getLnameInput = function () {
+        return this.lnameInput.getAttribute('value');
     }
 
-    setImageInput = function (image) {
-        this.imageInput.sendKeys(image);
+    addressPersonSelectLastOption = function () {
+        this.addressPersonSelect.all(by.tagName('option')).last().click();
     }
 
-    getImageInput = function () {
-        return this.imageInput.getAttribute('value');
+    addressPersonSelectOption = function (option) {
+        this.addressPersonSelect.sendKeys(option);
     }
 
-    addressSelectLastOption = function () {
-        this.addressSelect.all(by.tagName('option')).last().click();
+    getAddressPersonSelect = function () {
+        return this.addressPersonSelect;
     }
 
-    addressSelectOption = function (option) {
-        this.addressSelect.sendKeys(option);
+    getAddressPersonSelectedOption = function () {
+        return this.addressPersonSelect.element(by.css('option:checked')).getText();
     }
 
-    getAddressSelect = function () {
-        return this.addressSelect;
+    bankSelectLastOption = function () {
+        this.bankSelect.all(by.tagName('option')).last().click();
     }
 
-    getAddressSelectedOption = function () {
-        return this.addressSelect.element(by.css('option:checked')).getText();
+    bankSelectOption = function (option) {
+        this.bankSelect.sendKeys(option);
     }
 
-    addressSelectLastOption = function () {
-        this.addressSelect.all(by.tagName('option')).last().click();
+    getBankSelect = function () {
+        return this.bankSelect;
     }
 
-    addressSelectOption = function (option) {
-        this.addressSelect.sendKeys(option);
-    }
-
-    getAddressSelect = function () {
-        return this.addressSelect;
-    }
-
-    getAddressSelectedOption = function () {
-        return this.addressSelect.element(by.css('option:checked')).getText();
+    getBankSelectedOption = function () {
+        return this.bankSelect.element(by.css('option:checked')).getText();
     }
 
     save() {

@@ -37,8 +37,8 @@ describe('Address e2e test', () => {
         addressComponentsPage.clickOnCreateButton();
         addressDialogPage.setIdaddressInput('5');
         expect(addressDialogPage.getIdaddressInput()).toMatch('5');
-        addressDialogPage.setMainstreetInput('mainstreet');
-        expect(addressDialogPage.getMainstreetInput()).toMatch('mainstreet');
+        addressDialogPage.setAddressInput('address');
+        expect(addressDialogPage.getAddressInput()).toMatch('address');
         addressDialogPage.setNumberInput('5');
         expect(addressDialogPage.getNumberInput()).toMatch('5');
         addressDialogPage.setCpInput('5');
@@ -70,7 +70,7 @@ export class AddressDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     idaddressInput = element(by.css('input#field_idaddress'));
-    mainstreetInput = element(by.css('input#field_mainstreet'));
+    addressInput = element(by.css('input#field_address'));
     numberInput = element(by.css('input#field_number'));
     cpInput = element(by.css('input#field_cp'));
 
@@ -86,12 +86,12 @@ export class AddressDialogPage {
         return this.idaddressInput.getAttribute('value');
     }
 
-    setMainstreetInput = function (mainstreet) {
-        this.mainstreetInput.sendKeys(mainstreet);
+    setAddressInput = function (address) {
+        this.addressInput.sendKeys(address);
     }
 
-    getMainstreetInput = function () {
-        return this.mainstreetInput.getAttribute('value');
+    getAddressInput = function () {
+        return this.addressInput.getAttribute('value');
     }
 
     setNumberInput = function (number) {

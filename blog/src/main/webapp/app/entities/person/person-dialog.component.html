@@ -28,47 +28,53 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="blogApp.person.name" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="person.name"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="blogApp.person.surname" for="field_surname">Surname</label>
-            <input type="text" class="form-control" name="surname" id="field_surname"
-                [(ngModel)]="person.surname"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="blogApp.person.image" for="field_image">Image</label>
-            <div>
-                <div *ngIf="person.image" class="form-text text-danger clearfix">
-                    <a class="pull-left" (click)="openFile(person.imageContentType, person.image)" jhiTranslate="entity.action.open">open</a><br>
-                    <span class="pull-left">{{person.imageContentType}}, {{byteSize(person.image)}}</span>
-                    <button type="button" (click)="person.image=null;person.imageContentType=null;"
-                            class="btn btn-secondary btn-xs pull-right">
-                        <span class="fa fa-times"></span>
-                    </button>
-                </div>
-                <input type="file" id="file_image" (change)="setFileData($event, person, 'image', false)" jhiTranslate="entity.action.addblob"/>
+            <label class="form-control-label" jhiTranslate="blogApp.person.fname" for="field_fname">Fname</label>
+            <input type="text" class="form-control" name="fname" id="field_fname"
+                [(ngModel)]="person.fname" required />
+            <div [hidden]="!(editForm.controls.fname?.dirty && editForm.controls.fname?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.fname?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
             </div>
-            <input type="hidden" class="form-control" name="image" id="field_image"
-                [(ngModel)]="person.image"  />
-            <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType"
-                [(ngModel)]="person.imageContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="blogApp.person.lname" for="field_lname">Lname</label>
+            <input type="text" class="form-control" name="lname" id="field_lname"
+                [(ngModel)]="person.lname" required />
+            <div [hidden]="!(editForm.controls.lname?.dirty && editForm.controls.lname?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.lname?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="blogApp.person.address" for="field_address">Address</label>
-            <select class="form-control" id="field_address" name="address" [(ngModel)]="person.address">
-                <option [ngValue]="null"></option>
-                <option [ngValue]="addressOption.id === person.address?.id ? person.address : addressOption" *ngFor="let addressOption of addresses; trackBy: trackAddressById">{{addressOption.mainstreet}}</option>
+            <label class="form-control-label" jhiTranslate="blogApp.person.addressPerson" for="field_addressPerson">Address Person</label>
+            <select class="form-control" id="field_addressPerson" name="addressPerson" [(ngModel)]="person.addressPerson" required>
+                <option *ngIf="!editForm.value.addressPerson" [ngValue]="null" selected></option>
+                <option [ngValue]="addressOption.id === person.addressPerson?.id ? person.addressPerson : addressOption" *ngFor="let addressOption of addresspeople; trackBy: trackAddressById">{{addressOption.address}}</option>
             </select>
         </div>
+        <div [hidden]="!(editForm.controls.addressPerson?.dirty && editForm.controls.addressPerson?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.addressPerson?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="blogApp.person.address" for="field_address">Address</label>
-            <select class="form-control" id="field_address" name="address" [(ngModel)]="person.address">
-                <option [ngValue]="null"></option>
-                <option [ngValue]="addressOption.id === person.address?.id ? person.address : addressOption" *ngFor="let addressOption of addresses; trackBy: trackAddressById">{{addressOption.number}}</option>
+            <label class="form-control-label" jhiTranslate="blogApp.person.bank" for="field_bank">Bank</label>
+            <select class="form-control" id="field_bank" name="bank" [(ngModel)]="person.bank" required>
+                <option *ngIf="!editForm.value.bank" [ngValue]="null" selected></option>
+                <option [ngValue]="bankOption.id === person.bank?.id ? person.bank : bankOption" *ngFor="let bankOption of banks; trackBy: trackBankById">{{bankOption.bankname}}</option>
             </select>
+        </div>
+        <div [hidden]="!(editForm.controls.bank?.dirty && editForm.controls.bank?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.bank?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
         </div>
     </div>
     <div class="modal-footer">

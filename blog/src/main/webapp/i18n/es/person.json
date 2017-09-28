@@ -17,11 +17,10 @@
                 "title": "Person"
             },
             "idperson": "Idperson",
-            "name": "Name",
-            "surname": "Surname",
-            "image": "Image",
-            "address": "Address",
-            "address": "Address"
+            "fname": "Fname",
+            "lname": "Lname",
+            "addressPerson": "Address Person",
+            "bank": "Bank"
         }
     }
 }

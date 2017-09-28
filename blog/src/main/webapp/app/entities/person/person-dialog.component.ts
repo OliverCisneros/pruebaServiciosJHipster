@@ -4,12 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
 import { PersonService } from './person.service';
 import { Address, AddressService } from '../address';
+import { Bank, BankService } from '../bank';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -21,14 +22,16 @@ export class PersonDialogComponent implements OnInit {
     person: Person;
     isSaving: boolean;
 
-    addresses: Address[];
+    addresspeople: Address[];
+
+    banks: Bank[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private dataUtils: JhiDataUtils,
         private alertService: JhiAlertService,
         private personService: PersonService,
         private addressService: AddressService,
+        private bankService: BankService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -38,28 +41,29 @@ export class PersonDialogComponent implements OnInit {
         this.addressService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
-                if (!this.person.address || !this.person.address.id) {
-                    this.addresses = res.json;
+                if (!this.person.addressPerson || !this.person.addressPerson.id) {
+                    this.addresspeople = res.json;
                 } else {
                     this.addressService
-                        .find(this.person.address.id)
+                        .find(this.person.addressPerson.id)
                         .subscribe((subRes: Address) => {
-                            this.addresses = [subRes].concat(res.json);
+                            this.addresspeople = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
-    }
-
-    byteSize(field) {
-        return this.dataUtils.byteSize(field);
-    }
-
-    openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
-    }
-
-    setFileData(event, entity, field, isImage) {
-        this.dataUtils.setFileData(event, entity, field, isImage);
+        this.bankService
+            .query({filter: 'person-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.person.bank || !this.person.bank.id) {
+                    this.banks = res.json;
+                } else {
+                    this.bankService
+                        .find(this.person.bank.id)
+                        .subscribe((subRes: Bank) => {
+                            this.banks = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -97,6 +101,10 @@ export class PersonDialogComponent implements OnInit {
     }
 
     trackAddressById(index: number, item: Address) {
+        return item.id;
+    }
+
+    trackBankById(index: number, item: Bank) {
         return item.id;
     }
 }

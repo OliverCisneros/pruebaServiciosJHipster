@@ -1,0 +1,29 @@
+
+//****************** ENTITIES ******************
+
+entity Person{
+	idperson Integer required,
+	fname String required,
+	lname String required
+}
+
+entity Address{
+	idaddress Integer required,
+    address String required,
+    number Integer required,
+    cp Integer required
+}
+
+entity Bank{
+	idBank Integer required,
+    bankname String required
+}
+
+
+//****************** RELATIONSHIPS ******************
+
+relationship OneToOne{
+	Person{addressPerson(address) required} to Address,
+    Person{bank(bankname) required} to Bank,
+    Bank{address(address) required} to Address
+}

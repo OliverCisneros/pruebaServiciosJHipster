@@ -17,7 +17,7 @@
                 "title": "Address"
             },
             "idaddress": "Idaddress",
-            "mainstreet": "Mainstreet",
+            "address": "Address",
             "number": "Number",
             "cp": "Cp"
         }

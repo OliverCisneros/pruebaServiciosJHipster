@@ -8,31 +8,24 @@
         <dd>
             <span>{{person.idperson}}</span>
         </dd>
-        <dt><span jhiTranslate="blogApp.person.name">Name</span></dt>
+        <dt><span jhiTranslate="blogApp.person.fname">Fname</span></dt>
         <dd>
-            <span>{{person.name}}</span>
+            <span>{{person.fname}}</span>
         </dd>
-        <dt><span jhiTranslate="blogApp.person.surname">Surname</span></dt>
+        <dt><span jhiTranslate="blogApp.person.lname">Lname</span></dt>
         <dd>
-            <span>{{person.surname}}</span>
+            <span>{{person.lname}}</span>
         </dd>
-        <dt><span jhiTranslate="blogApp.person.image">Image</span></dt>
+        <dt><span jhiTranslate="blogApp.person.addressPerson">Address Person</span></dt>
         <dd>
-            <div *ngIf="person.image">
-                <a (click)="openFile(person.imageContentType, person.image)" jhiTranslate="entity.action.open">open</a>
-                {{person.imageContentType}}, {{byteSize(person.image)}}
+            <div *ngIf="person.addressPerson">
+                <a [routerLink]="['/address', person.addressPerson?.id]">{{person.addressPerson?.address}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="blogApp.person.address">Address</span></dt>
+        <dt><span jhiTranslate="blogApp.person.bank">Bank</span></dt>
         <dd>
-            <div *ngIf="person.address">
-                <a [routerLink]="['/address', person.address?.id]">{{person.address?.mainstreet}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="blogApp.person.address">Address</span></dt>
-        <dd>
-            <div *ngIf="person.address">
-                <a [routerLink]="['/address', person.address?.id]">{{person.address?.number}}</a>
+            <div *ngIf="person.bank">
+                <a [routerLink]="['/bank', person.bank?.id]">{{person.bank?.bankname}}</a>
             </div>
         </dd>
     </dl>

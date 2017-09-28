@@ -1,0 +1,5 @@
+entity Person{
+	id Integer required,
+	name String required,
+	surname String required
+}

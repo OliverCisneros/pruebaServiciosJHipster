@@ -29,26 +29,23 @@ public class Person implements Serializable {
     @Column(name = "idperson", nullable = false)
     private Integer idperson;
 
-    @Column(name = "name")
-    private String name;
+    @NotNull
+    @Column(name = "fname", nullable = false)
+    private String fname;
 
-    @Column(name = "surname")
-    private String surname;
+    @NotNull
+    @Column(name = "lname", nullable = false)
+    private String lname;
 
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
-
-    @Column(name = "image_content_type")
-    private String imageContentType;
-
-    @OneToOne
+    @OneToOne(optional = false)
+    @NotNull
     @JoinColumn(unique = true)
-    private Address address;
+    private Address addressPerson;
 
-    @OneToOne
+    @OneToOne(optional = false)
+    @NotNull
     @JoinColumn(unique = true)
-    private Address address;
+    private Bank bank;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -72,82 +69,56 @@ public class Person implements Serializable {
         this.idperson = idperson;
     }
 
-    public String getName() {
-        return name;
+    public String getFname() {
+        return fname;
     }
 
-    public Person name(String name) {
-        this.name = name;
+    public Person fname(String fname) {
+        this.fname = fname;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLname() {
+        return lname;
     }
 
-    public Person surname(String surname) {
-        this.surname = surname;
+    public Person lname(String lname) {
+        this.lname = lname;
         return this;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
-    public byte[] getImage() {
-        return image;
+    public Address getAddressPerson() {
+        return addressPerson;
     }
 
-    public Person image(byte[] image) {
-        this.image = image;
+    public Person addressPerson(Address address) {
+        this.addressPerson = address;
         return this;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setAddressPerson(Address address) {
+        this.addressPerson = address;
     }
 
-    public String getImageContentType() {
-        return imageContentType;
+    public Bank getBank() {
+        return bank;
     }
 
-    public Person imageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
+    public Person bank(Bank bank) {
+        this.bank = bank;
         return this;
     }
 
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Person address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Person address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
@@ -176,10 +147,8 @@ public class Person implements Serializable {
         return "Person{" +
             "id=" + getId() +
             ", idperson='" + getIdperson() + "'" +
-            ", name='" + getName() + "'" +
-            ", surname='" + getSurname() + "'" +
-            ", image='" + getImage() + "'" +
-            ", imageContentType='" + imageContentType + "'" +
+            ", fname='" + getFname() + "'" +
+            ", lname='" + getLname() + "'" +
             "}";
     }
 }
