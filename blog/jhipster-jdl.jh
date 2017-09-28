@@ -1,0 +1,22 @@
+
+
+entity Person{
+	idperson Integer required,
+    name String,
+    surname String,
+    image Blob
+}
+
+entity Address{
+	idaddress Integer required,
+    mainstreet String,
+    number Integer,
+    cp Integer
+}
+
+
+relationship OneToOne{
+	Person{address(mainstreet)} to Address,
+	Person{address(number)} to Address
+}
+

@@ -1,0 +1,52 @@
+
+<div *ngIf="person">
+    <h2><span jhiTranslate="blogApp.person.detail.title">Person</span> {{person.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.person.idperson">Idperson</span></dt>
+        <dd>
+            <span>{{person.idperson}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.person.name">Name</span></dt>
+        <dd>
+            <span>{{person.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.person.surname">Surname</span></dt>
+        <dd>
+            <span>{{person.surname}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.person.image">Image</span></dt>
+        <dd>
+            <div *ngIf="person.image">
+                <a (click)="openFile(person.imageContentType, person.image)" jhiTranslate="entity.action.open">open</a>
+                {{person.imageContentType}}, {{byteSize(person.image)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.person.address">Address</span></dt>
+        <dd>
+            <div *ngIf="person.address">
+                <a [routerLink]="['/address', person.address?.id]">{{person.address?.mainstreet}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.person.address">Address</span></dt>
+        <dd>
+            <div *ngIf="person.address">
+                <a [routerLink]="['/address', person.address?.id]">{{person.address?.number}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'person/'+ person.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

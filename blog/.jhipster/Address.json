@@ -1,0 +1,30 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "idaddress",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "mainstreet",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "number",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "cp",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170927204148",
+    "entityTableName": "address",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

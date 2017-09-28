@@ -1,0 +1,37 @@
+
+<div *ngIf="address">
+    <h2><span jhiTranslate="blogApp.address.detail.title">Address</span> {{address.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.address.idaddress">Idaddress</span></dt>
+        <dd>
+            <span>{{address.idaddress}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.address.mainstreet">Mainstreet</span></dt>
+        <dd>
+            <span>{{address.mainstreet}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.address.number">Number</span></dt>
+        <dd>
+            <span>{{address.number}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.address.cp">Cp</span></dt>
+        <dd>
+            <span>{{address.cp}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'address/'+ address.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
